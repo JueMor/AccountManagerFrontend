@@ -1,0 +1,229 @@
+<!-- Add account modal -->
+<div class="modal fade" id="addAccountModal" tabindex="-1" role="dialog"
+     aria-labelledby="addAccount" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addAccountModalLabel">Add Account</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-wrapper" [formGroup]="accountForm">
+          <div class="form-group">
+            <label class="form-label" for="addRoles">Title</label>
+            <select formControlName="role" id="addRoles">
+              <option *ngFor="let role of roles; let i = index" [value]="roles[i]">
+                {{role}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-lg-6 form-group">
+                <label class="col-m-2 col-form-label" for="addAccountUsername">Username</label>
+                <input class="form-control input-m" type="text" name="username" id="addAccountUsername"
+                       formControlName="username" placeholder="Username">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <h5>Name</h5>
+            <div class="row" formGroupName="name">
+              <div class="col-lg-6 form-group">
+                <label class="col-m-2 col-form-label" for="addAccountFirstName">First Name</label>
+                <input class="form-control input-m" type="text" name="firstName" id="addAccountFirstName"
+                       formControlName="firstName" placeholder="First name">
+                <div *ngIf="firstName.touched && firstName.invalid"
+                     class="alert alert-danger"><div *ngIf="firstName.errors.required">First Name is required.</div>
+                </div>
+              </div>
+              <div class="col-lg-6 form-group">
+                <label class="col-m-2 col-form-label" for="addAccountLastName">Last Name</label>
+                <input class="form-control input-m" type="text" name="lastName" id="addAccountLastName"
+                       formControlName="lastName" placeholder="Last name">
+              </div>
+            </div>
+          </div>
+          <div class="form-group" formGroupName="address">
+            <h5>Address</h5>
+            <label class="form-label" for="addAccountStreet">Street</label>
+            <input class="form-control" type="text" name="street" id="addAccountStreet" formControlName="street"
+                   placeholder="Street">
+            <div class="row">
+              <div class="col-lg-6 form-group">
+                <label class="form-label" for="addAccountResidence">City</label>
+                <input class="form-control" type="text" name="city" id="addAccountResidence" formControlName="city"
+                       placeholder="City">
+              </div>
+              <div class="col-lg-6 form-group">
+                <label class="form-label" for="addAccountPostCode">Post Code</label>
+                <input class="form-control" type="number" name="postCode" id="addAccountPostCode"
+                       formControlName="postCode"
+                       placeholder="Post Code">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="addEmail">Email</label>
+            <input class="form-control" type="text" name="email" id="addEmail" formControlName="email"
+                   placeholder="Email">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="addAccountPhoneNumber">Phone number</label>
+            <input class="form-control" type="tel" name="phoneNumber" id="addAccountPhoneNumber"
+                   formControlName="phoneNumber"
+                   placeholder="Phone number">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="addAccountDob">Birthdate</label>
+            <input class="form-control" type="date" name="dob" id="addAccountDob" formControlName="dob"
+                   placeholder="Birthdate">
+          </div>
+          <div class="form-group" formGroupName="combinedPasswords">
+            <div class="form-group">
+              <label class="form-label" for="addAccountPassword">Password</label>
+              <input class="form-control" type="password" name="password" id="addAccountPassword"
+                     formControlName="password"
+                     placeholder="Password">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="addAccountConfirmPassword">Confirm Password</label>
+              <input class="form-control" type="password" name="password" id="addAccountConfirmPassword"
+                     formControlName="confirmPassword"
+                     placeholder="password">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="add-account-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button [disabled]="!accountForm.valid" type="submit" data-dismiss="modal" class="btn btn-primary"
+                    (click)="onAddAccount(accountForm)">Add Account
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit account modal -->
+<div class="modal fade" id="editAccountModal" tabindex="-1" role="dialog" aria-labelledby="editAccount"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editAccountModalLabel">Edit
+          Account {{updateAccount?.name?.firstName}} {{updateAccount?.name?.lastName}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-wrapper" autocomplete="off" [formGroup]="accountForm" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="editRoles">Title</label>
+            <select formControlName="role" id="editRoles">
+              <option *ngFor="let role of roles; let i = index" [value]="roles[i]">
+                {{role}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-lg-6 form-group">
+                <label class="col-m-2 col-form-label" for="editAccountUsername">Username</label>
+                <input class="form-control input-m" type="text" name="username" id="editAccountUsername"
+                       formControlName="username" placeholder="Username">
+              </div>
+            </div>
+          </div>
+          <h5>Name</h5>
+          <div class="row" formGroupName="name">
+            <div class="col-lg-6 form-group">
+              <label class="col-m-2 col-form-label" for="editAccountFirstName">First Name</label>
+              <input class="form-control input-m" type="text" name="firstName" id="editAccountFirstName"
+                     formControlName="firstName" placeholder="First name">
+            </div>
+            <div class="col-lg-6 form-group">
+              <label class="col-m-2 col-form-label" for="editAccountLastName">Last Name</label>
+              <input class="form-control input-m" type="text" name="lastName" id="editAccountLastName"
+                     formControlName="lastName" placeholder="Last name">
+            </div>
+          </div>
+          <div class="form-group" formGroupName="address">
+            <h5>Address</h5>
+            <label class="form-label" for="updateAccountStreet">Street</label>
+            <input class="form-control" type="text" name="street" id="updateAccountStreet" formControlName="street"
+                   placeholder="Street">
+            <div class="row">
+              <div class="col-lg-6 form-group">
+                <label class="form-label" for="updateAccountResidence">City</label>
+                <input class="form-control" type="text" name="city" id="updateAccountResidence" formControlName="city"
+                       placeholder="City">
+              </div>
+              <div class="col-lg-6 form-group">
+                <label class="form-label" for="updateAccountPostCode">Post Code</label>
+                <input class="form-control" type="number" name="postCode" id="updateAccountPostCode"
+                       formControlName="postCode"
+                       placeholder="Post Code">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="updateEmail">Email</label>
+            <input class="form-control" type="text" name="email" id="updateEmail" formControlName="email"
+                   placeholder="Email">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="updateAccountPhoneNumber">Phone number</label>
+            <input class="form-control" type="tel" name="phoneNumber" id="updateAccountPhoneNumber"
+                   formControlName="phoneNumber"
+                   placeholder="Phone number">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="updateAccountDob">Birthdate</label>
+            <input class="form-control" type="date" name="dob" id="updateAccountDob" formControlName="dob"
+                   placeholder="Birthdate">
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+            <button type="submit" data-dismiss="modal" class="btn btn-primary" (click)="onUpdateAccount(accountForm)">
+              Save changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete account modal -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog" aria-labelledby="deleteAccount"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModelLabel">Delete Account</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-wrapper" autocomplete="off" [formGroup]="accountForm" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="deleteEmail">Are you sure you want to
+              delete {{deleteAccount?.name?.firstName}} {{deleteAccount?.name?.lastName}}?</label>
+            <input class="form-control" type="hidden" name="email" id="deleteEmail" formControlName="email"
+                   placeholder="Email">
+          </div>
+        </form>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+          <button type="submit" class="btn btn-danger" data-dismiss="modal" (click)="onDeleteAccount(accountForm)">Yes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
