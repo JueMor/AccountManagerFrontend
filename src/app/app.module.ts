@@ -5,22 +5,22 @@ import { AppComponent } from './app.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { AccountFormComponent } from './account-form/account-form.component';
-import {Ng2SearchPipeModule} from "ng2-search-filter";
 import { LoginFormComponent } from './login-form/login-form.component';
 import {AuthInterceptor} from "./interceptor/AuthInterceptor";
+import { FilterPipe } from './filter/filter.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     AccountFormComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule,
-    Ng2SearchPipeModule
+    ReactiveFormsModule
   ],
   providers: [
     {

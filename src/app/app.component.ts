@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
 
   public jwtResponse: JwtResponse;
 
-  searchText: any;
+  searchText: any = "";
 
   constructor(private accountService: AccountService) {
   }

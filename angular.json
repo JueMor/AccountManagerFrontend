@@ -102,5 +102,7 @@
       }
     }
   },
-  "defaultProject": "AccountManagerFront"
+  "cli": {
+    "analytics": false
+  }
 }

@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Account} from "../datatypes/account";
 import {Roles} from "../datatypes/roles";
-import {isDefined} from "@angular/compiler/src/util";
 import {ConfirmedValidator} from "../customvalidators/ConfirmedValidator";
 
 @Component({
