@@ -36,7 +36,8 @@
                 <input class="form-control input-m" type="text" name="firstName" id="addAccountFirstName"
                        formControlName="firstName" placeholder="First name">
                 <div *ngIf="firstName.touched && firstName.invalid"
-                     class="alert alert-danger"><div *ngIf="firstName.errors.required">First Name is required.</div>
+                     class="alert alert-danger">
+                  <div *ngIf="firstName.errors.required">First Name is required.</div>
                 </div>
               </div>
               <div class="col-lg-6 form-group">
@@ -81,19 +82,17 @@
             <input class="form-control" type="date" name="dob" id="addAccountDob" formControlName="dob"
                    placeholder="Birthdate">
           </div>
-          <div class="form-group" formGroupName="combinedPasswords">
-            <div class="form-group">
-              <label class="form-label" for="addAccountPassword">Password</label>
-              <input class="form-control" type="password" name="password" id="addAccountPassword"
-                     formControlName="password"
-                     placeholder="Password">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="addAccountConfirmPassword">Confirm Password</label>
-              <input class="form-control" type="password" name="password" id="addAccountConfirmPassword"
-                     formControlName="confirmPassword"
-                     placeholder="password">
-            </div>
+          <div class="form-group">
+            <label class="form-label" for="addAccountPassword">Password</label>
+            <input class="form-control" type="password" name="password" id="addAccountPassword"
+                   formControlName="password"
+                   placeholder="Password">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="addAccountConfirmPassword">Confirm Password</label>
+            <input class="form-control" type="password" name="password" id="addAccountConfirmPassword"
+                   formControlName="confirmPassword"
+                   placeholder="Password">
           </div>
           <div class="modal-footer">
             <button type="button" id="add-account-form" class="btn btn-secondary" data-dismiss="modal">Close</button>

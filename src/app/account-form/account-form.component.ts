@@ -40,27 +40,26 @@ export class AccountFormComponent implements OnChanges {
 
   private generateAccountForm(): FormGroup {
     return this.fb.group({
-      role: [[], [Validators.required]],
-      username: ["", Validators.required],
-      name: this.fb.group({
-        firstName: ["", [Validators.required]],
-        lastName: ["", [Validators.required]],
-      }),
-      address: this.fb.group({
-        city: ["", [Validators.required]],
-        street: ["", [Validators.required]],
-        postCode: ["", [Validators.required]],
-      }),
-      email: ["", Validators.email],
-      phoneNumber: "",
-      dob: ["", [Validators.required]],
-      combinedPasswords: this.fb.group({
+        role: [[], [Validators.required]],
+        username: ["", Validators.required],
+        name: this.fb.group({
+          firstName: ["", [Validators.required]],
+          lastName: ["", [Validators.required]],
+        }),
+        address: this.fb.group({
+          city: ["", [Validators.required]],
+          street: ["", [Validators.required]],
+          postCode: ["", [Validators.required]],
+        }),
+        email: ["", Validators.email],
+        phoneNumber: "",
+        dob: ["", [Validators.required]],
         password: ["", [Validators.pattern('^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&])[a-zA-Z0-9@$!%*?&]{8,})$')]],
         confirmPassword: [""],
-      }, {
+      }
+      , {
         validators: ConfirmedValidator('password', 'confirmPassword')
-      }),
-    })
+      })
   }
 
   private updateAccountForm(account: Account | undefined): void {
@@ -84,7 +83,7 @@ export class AccountFormComponent implements OnChanges {
     });
   }
 
-  get firstName(){
+  get firstName() {
     return this.accountForm.get("name")?.get("firstName");
   }
 
