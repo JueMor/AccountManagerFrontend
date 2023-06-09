@@ -11,6 +11,7 @@ import {JwtResponse} from "./payload/response/JwtResponse";
 })
 export class AccountService {
   private apiServerUrl = environment.apiBaseUrl;
+  private apiAccount = environment.apiAccountUrl;
 
   constructor(private http: HttpClient) {
   }
@@ -20,23 +21,23 @@ export class AccountService {
   }
 
   public login(data: LoginRequest): Observable<JwtResponse> {
-    return this.http.post<JwtResponse>(`${this.apiServerUrl}/api/auth/signin`, data);
+    return this.http.post<JwtResponse>(`${this.apiServerUrl}/${this.apiAccount}/auth/signin`, data);
   }
 
   public getAccounts(): Observable<Account[]> {
-    return this.http.get<Account[]>(`${this.apiServerUrl}/account/all`);
+    return this.http.get<Account[]>(`${this.apiServerUrl}/${this.apiAccount}/user/`);
   }
 
   public addAccount(account: Account) :Observable<Account>{
     alert(JSON.stringify(account))
-    return this.http.post<Account>(`${this.apiServerUrl}/account/add`, account);
+    return this.http.post<Account>(`${this.apiServerUrl}/${this.apiAccount}/user/`, account);
   }
 
   public updateAccount(account: Account) :Observable<Account>{
-    return this.http.put<Account>(`${this.apiServerUrl}/account/update`, account);
+    return this.http.put<Account>(`${this.apiServerUrl}/${this.apiAccount}/user/`, account);
   }
 
   public deleteAccount(account: Account) :Observable<void>{
-    return this.http.delete<void>(`${this.apiServerUrl}/account/delete/${account.email}`);
+    return this.http.delete<void>(`${this.apiServerUrl}/${this.apiAccount}/${account.email}`);
   }
 }

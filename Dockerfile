@@ -1,5 +1,5 @@
 FROM node:18.16.0 as build
-LABEL authors="GrandJM"
+LABEL authors="JueMor"
 WORKDIR /app
 COPY . .
 RUN npm install
