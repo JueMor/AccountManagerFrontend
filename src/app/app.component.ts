@@ -3,7 +3,6 @@ import {Account} from "./datatypes/account";
 import {AccountService} from "./account.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {LoginRequest} from "./payload/request/LoginRequest";
-import {JwtResponse} from "./payload/response/JwtResponse";
 
 @Component({
   selector: 'app-root',
@@ -19,8 +18,6 @@ export class AppComponent implements OnInit {
 
   public loginAccount: LoginRequest = {};
 
-  public jwtResponse: JwtResponse;
-
   searchText: any = "";
 
   constructor(private accountService: AccountService) {
@@ -34,39 +31,41 @@ export class AppComponent implements OnInit {
     this.loginAccount.username = $event.value.username;
     this.loginAccount.password = $event.value.password;
 
-    this.accountService.login($event.value).subscribe(
-      (response: JwtResponse) => {
-        this.jwtResponse = response;
+    this.accountService.login($event.value).subscribe({
+        next: (response: any) => {
+          console.log(response.headers.get('Authorization'));
+          localStorage.setItem('token', response.headers.get('Authorization'))
 
-        localStorage.setItem('token', this.jwtResponse.accessToken)
-
-        this.getAccounts();
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
+          this.getAccounts();
+        },
+        error: (error: HttpErrorResponse) => {
+          alert(error.message);
+        }
       }
     )
   }
 
   public getAccounts(): void {
-    this.accountService.getAccounts().subscribe(
-      (response: Account[]) => {
-        this.accounts = response;
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message)
+    this.accountService.getAccounts().subscribe({
+        next: (response: Account[]) => {
+          this.accounts = response;
+        },
+        error: (error: HttpErrorResponse) => {
+          alert(error.message)
+        }
       }
     );
   }
 
   public onAddAccount($event: { value: Account; }): void {
-    this.accountService.addAccount($event.value).subscribe(
-      (response: Account) => {
-        console.log(response);
-        this.getAccounts();
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
+    this.accountService.addAccount($event.value).subscribe({
+        next: (response: Account) => {
+          console.log(response);
+          this.getAccounts();
+        },
+        error: (error: HttpErrorResponse) => {
+          alert(error.message);
+        }
       }
     )
   }
@@ -76,13 +75,14 @@ export class AppComponent implements OnInit {
   }
 
   public onUpdateAccount($event: { value: Account }): void {
-    this.accountService.updateAccount($event.value).subscribe(
-      (response: Account) => {
-        console.log(response);
-        this.getAccounts();
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
+    this.accountService.updateAccount($event.value).subscribe({
+        next: (response: Account) => {
+          console.log(response);
+          this.getAccounts();
+        },
+        error: (error: HttpErrorResponse) => {
+          alert(error.message);
+        }
       }
     )
   }
@@ -92,13 +92,14 @@ export class AppComponent implements OnInit {
   }
 
   public onDeleteAccount($event: { value: Account }): void {
-    this.accountService.deleteAccount($event.value).subscribe(
-      (response: void) => {
-        console.log(response);
-        this.getAccounts();
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
+    this.accountService.deleteAccount($event.value).subscribe({
+        next: (response: void) => {
+          console.log(response);
+          this.getAccounts();
+        },
+        error: (error: HttpErrorResponse) => {
+          alert(error.message);
+        }
       }
     )
   }

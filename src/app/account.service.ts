@@ -4,7 +4,6 @@ import {HttpClient} from "@angular/common/http";
 import {Account} from "./datatypes/account";
 import {environment} from "../environments/environment";
 import {LoginRequest} from "./payload/request/LoginRequest";
-import {JwtResponse} from "./payload/response/JwtResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +19,8 @@ export class AccountService {
     return localStorage.getItem('token');
   }
 
-  public login(data: LoginRequest): Observable<JwtResponse> {
-    return this.http.post<JwtResponse>(`${this.apiServerUrl}/${this.apiAccount}/auth/signin`, data);
+  public login(data: LoginRequest): Observable<any> {
+    return this.http.post<any>(`${this.apiServerUrl}/${this.apiAccount}/auth/signin`, data, {observe: 'response'});
   }
 
   public getAccounts(): Observable<Account[]> {
