@@ -28,7 +28,7 @@ export class AccountService {
   }
 
   public addAccount(account: Account) :Observable<Account>{
-    alert(JSON.stringify(account))
+    console.log(JSON.stringify(account))
     return this.http.post<Account>(`${this.apiServerUrl}/${this.apiAccount}/user/`, account);
   }
 

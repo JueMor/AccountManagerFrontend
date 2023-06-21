@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:8060',
-  apiAccountUrl: 'account/api'
+  apiBaseUrl: 'http://localhost:8080',
+  apiAccountUrl: 'account/api',
+  apiAuthorizationUrl: '/account/api/autho'
 };
 
 /*

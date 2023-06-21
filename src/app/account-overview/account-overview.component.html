@@ -1,0 +1,61 @@
+<p>account-overview works!</p>
+<div class="container" id="main-container">
+  <div class="row">
+    <div *ngFor="let account of accounts | filter:searchText" class="col-md-6 col-xl-4" style="width: 18rem;">
+      <div class="card bg-dark text-white m-b-30" style="width: 20rem;">
+        <div class="card-body row">
+          <div class="col-6">
+            <a href=""><img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt=""
+                            class="img-fluid rounded-circle w-60"></a>
+          </div>
+          <div class="col-6 card-title align-self-center mb-0">
+            <p class="m-0">{{account?.role}}</p>
+            <h5>{{account?.name?.firstName}} {{account?.name?.lastName}}</h5>
+            <p class="m-0">{{account?.username}}</p>
+          </div>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item bg-dark"><i class="fa fa-envelope float-right"></i>{{account?.email}}</li>
+          <li class="list-group-item bg-dark"><i class="fa fa-phone float-right"></i>{{account?.phoneNumber}}</li>
+        </ul>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item bg-dark">
+            <div class="ms-4 me">
+              Address
+              <i class="bi bi-house float-right"></i>
+            </div>
+            <div class="ms-4 me-auto">
+              {{account?.address?.street}}
+            </div>
+            <div class="ms-2 me-auto">
+              {{account?.address?.city}}
+            </div>
+            <div class="ms-2 me-auto">
+              {{account?.address?.postCode}}
+            </div>
+          </li>
+        </ul>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item bg-dark"><i class="bi bi-calendar float-right"></i>{{account?.dob}}</li>
+        </ul>
+        <div class="card-body">
+          <div class="float-right btn-group btn-group-sm">
+            <span class="btn btn-primary" data-toggle="modal" data-target="#editAccountModal"
+                  (click)="onUpdateAccountButtonPressed(account)">
+              <a data-toggle="tooltip" data-placements="top" title="Edit"> <i class="fa fa-pencil"></i></a>
+            </span>
+            <span class="btn btn-secondary tooltips" data-toggle="modal" data-target="#deleteAccountModal"
+                  (click)="onDeleteAccountButtonPressed(account)">
+              <a data-toggle="tooltip" data-placement="top" title="Delete"> <i class="fa fa-times"></i></a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-account-form
+  [updateAccount]="updateAccount" (updateAccountEvent)="onUpdateAccount($event)"
+  [deleteAccount]="deleteAccount" (deleteAccountEvent)="onDeleteAccount($event)"
+></app-account-form>

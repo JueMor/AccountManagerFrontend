@@ -1,27 +1,26 @@
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog"
-     aria-labelledby="loginModal" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="loginModalLabel">Login</h5>
-        <form name="form-wrapper" [formGroup]="loginForm">
-          <div class="form-group">
-            <label for="loginUsername">Username</label>
-            <input class="form-control input-m" type="text" name="username" id="loginUsername"
-                   formControlName="username" placeholder="Username">
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="loginPassword">Password</label>
-            <input class="form-control" type="password" name="password" id="loginPassword"
-                   formControlName="password"
-                   placeholder="Password">
-          </div>
-          <div class="modal-footer">
-            <button [disabled]="!loginForm.valid" type="button" data-dismiss="modal" class="btn btn-primary"
-                    (click)="onLogin(loginForm)">Login</button>
-          </div>
-        </form>
+<div class="login-form-container">
+  <h1 mat-dialog-title>Login</h1>
+  <mat-dialog-content>
+    <form [formGroup]="loginForm">
+      <div class="login-form-fields">
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input matInput type="text" id="loginUsername"
+                 formControlName="username"
+                 placeholder="Username">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input matInput type="password" id="loginPassword"
+                 formControlName="password"
+                 placeholder="Password">
+        </mat-form-field>
       </div>
-    </div>
-  </div>
+      <mat-dialog-actions align="end">
+        <button mat-raised-button color="primary" [disabled]="!loginForm.valid" data-dismiss="modal"
+                (click)="login(loginForm)">Login
+        </button>
+      </mat-dialog-actions>
+    </form>
+  </mat-dialog-content>
 </div>
