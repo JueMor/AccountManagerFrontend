@@ -19,7 +19,8 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
 import { RouterModule, Routes } from '@angular/router';
-import { AccountOverviewComponent } from './account-overview/account-overview.component'
+import { AccountOverviewComponent } from './account-overview/account-overview.component';
+import { AccountFormAddComponent } from './account-form/account-form-add/account-form-add.component'
 
 const routes: Routes = [
   { path: 'overview', component: AccountOverviewComponent },
@@ -32,7 +33,8 @@ const routes: Routes = [
     LoginFormComponent,
     FilterPipe,
     NavbarComponent,
-    AccountOverviewComponent
+    AccountOverviewComponent,
+    AccountFormAddComponent
   ],
   imports: [
     BrowserModule,

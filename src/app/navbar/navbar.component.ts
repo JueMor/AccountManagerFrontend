@@ -28,7 +28,7 @@ export class NavbarComponent {
 
   openLoginForm() {
     let loginForm = this.dialog.open(LoginFormComponent);
-    loginForm.componentInstance.loginAccountEvent.subscribe({
+    loginForm.componentInstance.loginSuccessful.subscribe({
       next: (value: boolean) => {
         if (value){
           this.router.navigate(['/overview']).then();

@@ -13,7 +13,7 @@ import {MatDialogRef} from "@angular/material/dialog";
 export class LoginFormComponent {
   public loginForm: FormGroup;
 
-  @Output() loginAccountEvent = new EventEmitter();
+  @Output() loginSuccessful: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private dialogRef: MatDialogRef<LoginFormComponent>,
               private fb: FormBuilder,
@@ -37,7 +37,7 @@ export class LoginFormComponent {
           localStorage.setItem('token', response.headers.get('Authorization'))
 
           this.dialogRef.close();
-          this.loginAccountEvent.emit(true);
+          this.loginSuccessful.emit(true);
         },
         error: (error: HttpErrorResponse) => {
           console.log(error.message);
