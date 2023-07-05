@@ -2,6 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {Account} from "../datatypes/account";
 import {HttpErrorResponse} from "@angular/common/http";
 import {AccountService} from "../account.service";
+import {AccountFormComponent} from "../account-form/account-form.component";
+import {MatDialog} from "@angular/material/dialog";
+import {AccountFormMode} from "../account-form/mode/AccountFormMode";
+import {Roles} from "../datatypes/roles";
+
 
 @Component({
   selector: 'app-account-overview',
@@ -14,8 +19,11 @@ export class AccountOverviewComponent implements OnInit {
   public deleteAccount: Account | undefined;
 
   searchText: any = "";
-  constructor(private accountService: AccountService) {
+
+  constructor(private accountService: AccountService,
+              public dialog: MatDialog) {
   }
+
   ngOnInit() {
     this.getAccounts();
   }
@@ -64,4 +72,20 @@ export class AccountOverviewComponent implements OnInit {
       }
     )
   }
+
+  openAccountForm(mode: AccountFormMode, account: null | Account) {
+    let accountForm = this.dialog.open(AccountFormComponent);
+    accountForm.componentInstance.mode = mode;
+    accountForm.componentInstance.setAccount(account)
+    accountForm.componentInstance.submitted.subscribe({
+      next: (value: boolean) => {
+        if (value) {
+          this.getAccounts();
+        }
+      },
+      error: (error: any) => console.log(error)
+    })
+  }
+
+  protected readonly AccountFormMode = AccountFormMode;
 }

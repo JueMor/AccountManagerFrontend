@@ -1,7 +1,7 @@
 export enum Roles{
-  USER,
-  MODERATOR,
-  ADMIN
+  ROLE_USER,
+  ROLE_MODERATOR,
+  ROLE_ADMIN
 }
 
 export namespace Roles{

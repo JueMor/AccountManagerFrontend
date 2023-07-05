@@ -1,46 +1,41 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Account} from "../datatypes/account";
 import {Roles} from "../datatypes/roles";
 import {ConfirmedValidator} from "../customvalidators/ConfirmedValidator";
+import {AccountFormMode} from "./mode/AccountFormMode";
+import {AccountService} from "../account.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-account-form',
   templateUrl: './account-form.component.html',
   styleUrls: ['./account-form.component.css']
 })
-export class AccountFormComponent implements OnChanges {
+export class AccountFormComponent {
 
   public accountForm: FormGroup;
 
   public roles: string[];
 
-  @Input() updateAccount: Account | undefined;
-  @Input() deleteAccount: Account | undefined;
+  @Input() mode: AccountFormMode = AccountFormMode.ADD;
 
-  @Output() addAccountEvent = new EventEmitter();
-  @Output() updateAccountEvent = new EventEmitter();
-  @Output() deleteAccountEvent = new EventEmitter();
+  @Output() submitted: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(private fb: FormBuilder) {
+  constructor(private cd: ChangeDetectorRef,
+              private fb: FormBuilder,
+              private accountService: AccountService) {
     this.accountForm = this.generateAccountForm();
     this.roles = Roles.getRoles();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    for (const propName in changes) {
-      if (propName == "updateAccount") {
-        this.updateAccountForm(this.updateAccount);
-      }
-      if (propName == "deleteAccount") {
-        this.updateAccountForm(this.deleteAccount);
-      }
-    }
+  public setAccount(account: Account) {
+    this.updateAccountForm(account)
   }
 
   private generateAccountForm(): FormGroup {
     return this.fb.group({
-        role: [[], [Validators.required]],
+        roles: [[], [Validators.required]],
         username: ["", Validators.required],
         name: this.fb.group({
           firstName: ["", [Validators.required]],
@@ -54,7 +49,7 @@ export class AccountFormComponent implements OnChanges {
         email: ["", Validators.email],
         phoneNumber: "",
         dob: ["", [Validators.required]],
-        password: ["", [Validators.pattern('^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&])[a-zA-Z0-9@$!%*?&]{8,})$')]],
+        password: ["", [Validators.required, Validators.pattern('^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&])[a-zA-Z0-9@$!%*?&]{8,})$')]],
         confirmPassword: [""],
       }
       , {
@@ -63,8 +58,9 @@ export class AccountFormComponent implements OnChanges {
   }
 
   private updateAccountForm(account: Account | undefined): void {
+    console.log(account)
     this.accountForm.patchValue({
-      role: [account?.role],
+      roles: [account?.roles],
       username: account?.username,
       name:
         {
@@ -83,19 +79,43 @@ export class AccountFormComponent implements OnChanges {
     });
   }
 
+  compareRoles(role_1: any, role_2: any): boolean {
+    for (let role of role_2) {
+      if (role_1 === role) {
+        return true
+      }
+    }
+
+    return false;
+  }
+
   get firstName() {
     return this.accountForm.get("name")?.get("firstName");
   }
 
-  public onAddAccount(accountForm: FormGroup): void {
-    this.addAccountEvent.emit(accountForm);
+  public onAddOrUpdateAccount($event: { value: Account; }): void {
+    if(this.mode === AccountFormMode.ADD){
+      this.accountService.addAccount($event.value).subscribe({
+          next: (response: Account) => {
+            console.log(response);
+          },
+          error: (error: HttpErrorResponse) => {
+            console.log(error.message);
+          }
+        }
+      )
+    } else {
+      this.accountService.updateAccount($event.value).subscribe({
+          next: (response: Account) => {
+            console.log(response);
+          },
+          error: (error: HttpErrorResponse) => {
+            console.log(error.message);
+          }
+        }
+      )
+    }
   }
 
-  public onUpdateAccount(accountForm: FormGroup): void {
-    this.updateAccountEvent.emit(accountForm);
-  }
-
-  public onDeleteAccount(accountForm: FormGroup): void {
-    this.deleteAccountEvent.emit(accountForm);
-  }
+  protected readonly AccountFormMode = AccountFormMode;
 }

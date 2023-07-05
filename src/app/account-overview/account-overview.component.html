@@ -9,7 +9,7 @@
                             class="img-fluid rounded-circle w-60"></a>
           </div>
           <div class="col-6 card-title align-self-center mb-0">
-            <p class="m-0">{{account?.role}}</p>
+            <p class="m-0">{{account?.roles}}</p>
             <h5>{{account?.name?.firstName}} {{account?.name?.lastName}}</h5>
             <p class="m-0">{{account?.username}}</p>
           </div>
@@ -40,8 +40,8 @@
         </ul>
         <div class="card-body">
           <div class="float-right btn-group btn-group-sm">
-            <span class="btn btn-primary" data-toggle="modal" data-target="#editAccountModal"
-                  (click)="onUpdateAccountButtonPressed(account)">
+            <span class="btn btn-primary"
+                  (click)="openAccountForm(AccountFormMode.UPDATE, account)">
               <a data-toggle="tooltip" data-placements="top" title="Edit"> <i class="fa fa-pencil"></i></a>
             </span>
             <span class="btn btn-secondary tooltips" data-toggle="modal" data-target="#deleteAccountModal"
@@ -54,8 +54,3 @@
     </div>
   </div>
 </div>
-
-<app-account-form
-  [updateAccount]="updateAccount" (updateAccountEvent)="onUpdateAccount($event)"
-  [deleteAccount]="deleteAccount" (deleteAccountEvent)="onDeleteAccount($event)"
-></app-account-form>

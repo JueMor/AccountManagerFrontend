@@ -20,7 +20,11 @@ import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
 import { RouterModule, Routes } from '@angular/router';
 import { AccountOverviewComponent } from './account-overview/account-overview.component';
-import { AccountFormAddComponent } from './account-form/account-form-add/account-form-add.component'
+import {MatSelectModule} from "@angular/material/select";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatMomentDateModule, MomentDateAdapter} from "@angular/material-moment-adapter";
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
+import {DATE_FORMAT} from "./format/DateFormat";
 
 const routes: Routes = [
   { path: 'overview', component: AccountOverviewComponent },
@@ -33,8 +37,7 @@ const routes: Routes = [
     LoginFormComponent,
     FilterPipe,
     NavbarComponent,
-    AccountOverviewComponent,
-    AccountFormAddComponent
+    AccountOverviewComponent
   ],
   imports: [
     BrowserModule,
@@ -49,13 +52,22 @@ const routes: Routes = [
     MatCardModule,
     MatDialogModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatMomentDateModule
   ],
   providers: [
     {
       provide : HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi   : true,
+    },
+    {
+      provide: DateAdapter, useClass: MomentDateAdapter, deps:[MAT_DATE_LOCALE]
+    },
+    {
+      provide: MAT_DATE_FORMATS, useValue: DATE_FORMAT
     }
   ],
   bootstrap: [AppComponent]

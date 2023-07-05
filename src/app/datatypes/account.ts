@@ -1,5 +1,5 @@
 export interface Account {
-  role?: [];
+  roles?: [];
   username?: string;
   name?: {
     firstName?: string;
